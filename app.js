@@ -1,16 +1,32 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const studentsRouter = require("./routes/students");
+const cvRouter = require("./routes/cv");
+const authRouter = require("./routes/auth");
 
 const app = express();
 
 
 app.use(express.json());
 
-app.use('/students', studentsRouter)
+app.use('/students', studentsRouter);
+app.use('/cv', cvRouter);
+app.use('/auth', authRouter);
 
-app.listen(3000, () => {
-    console.log("Server started !");
-});
+// Middleware gestion des erreurs
+
+mongoose.connect('mongodb://127.0.0.1:27017/isids23', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(result => app.listen(3000, () => {
+    console.log('Server Started');
+})).catch(err => {
+    console.log(err);
+})
+
+// app.listen(3000, () => {
+//     console.log("Server started !");
+// });
 
 
 
